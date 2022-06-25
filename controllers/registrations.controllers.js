@@ -37,6 +37,8 @@ const checkin = async(req, res, next) => {
 
 const checkout = async(req, res, next) => {
   try{
+
+
     
   }
   catch(err) {}
