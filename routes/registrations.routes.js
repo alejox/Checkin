@@ -2,8 +2,8 @@ const express = require('express');
 
 //Controllers
 const {
-  getAllRegistrations, 
-  getRegistrationsById, 
+  getAllRegistrations,
+  getRegistrationsById,
   checkin,
   checkout,
   cancelRegistration
@@ -17,4 +17,4 @@ registrationsRouter.post('/', checkin)
 registrationsRouter.patch('/:id', checkout)
 registrationsRouter.delete('/:id', cancelRegistration)
 
-module.exports= {registrationsRouter};
+module.exports = { registrationsRouter };

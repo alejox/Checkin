@@ -1,55 +1,91 @@
 //Models
-const {registration: Registration} = require('../models/registration.model')
+const { Registration } = require('../models/registration.model')
 
 
-const getAllRegistrations = async(req, res, next) => {
-  try{
+const getAllRegistrations = async (req, res, next) => {
+  try {
     const registrations = await Registration.findAll();
 
-    res.status(200).json({registrations});
+    res.status(200).json({ registrations });
   }
-  catch(err) {}
+  catch (err) { 
+    console.log(err);
+  }
 };
 
-const getRegistrationsById = async(req, res, next) => {
-  try{
-    const {id} = req.params;  
-    const registration = await Registration.findOne({where:{id}});
+const getRegistrationsById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const registration = await Registration.findOne({ where: { id } });
 
-    if(!registration){
+    if (!registration) {
       return res.status(404).json({
-        status:'Error',
-        message:'Registration not found',
+        status: 'Error',
+        message: 'Registration not found',
       })
     }
-
-    res.status(200).json({registration});
+    res.status(200).json({ registration });
   }
-  catch(err) {}
+  catch (err) { }
 };
 
-const checkin = async(req, res, next) => {
-  try{
+const checkin = async (req, res, next) => {
+  try {
+    const { entranceTime } = req.body;
 
+    const newRegistration = await Registration.create({ entranceTime });
+
+    res.status(201).json({
+      newRegistration,
+    });
   }
-  catch(err) {}
+  catch (err) { 
+    console.log(err);
+   }
 };
 
-const checkout = async(req, res, next) => {
-  try{
+const checkout = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { exitTime } = req.body;
+    const registration = await Registration.findOne({ where: { id } });
 
+    if (!registration) {
+      return res.status(404).json({
+        status: 'Error',
+        message: 'Registration not found',
+      })
+    }
+    res.status(200).json({ registration });
 
-    
+    await registration.update({ exitTime, status: 'out' });
+
+    res.status(204).json({ status: 'success' });
   }
-  catch(err) {}
+  catch (err) { }
 };
 
-const cancelRegistration = async(req, res, next) => {
-  try{}
-  catch(err) {}
+const cancelRegistration = async (req, res, next) => {
+  try { 
+    const { id } = req.params;
+    const registration = await Registration.findOne({ where: { id } });
+
+    if (!registration) {
+      return res.status(404).json({
+        status: 'Error',
+        message: 'Registration not found',
+      })
+    }
+    res.status(200).json({ registration });
+
+    await registration.update({status: 'cancelled' });
+
+    res.status(204).json({ status: 'success' });
+  }
+  catch (err) { }
 };
 
-module.exports={
+module.exports = {
   getAllRegistrations,
   getRegistrationsById,
   checkin,
