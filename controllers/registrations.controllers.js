@@ -8,7 +8,7 @@ const getAllRegistrations = async (req, res, next) => {
 
     res.status(200).json({ registrations });
   }
-  catch (err) { 
+  catch (err) {
     console.log(err);
   }
 };
@@ -30,6 +30,7 @@ const getRegistrationsById = async (req, res, next) => {
   catch (err) { }
 };
 
+
 const checkin = async (req, res, next) => {
   try {
     const { entranceTime } = req.body;
@@ -40,9 +41,9 @@ const checkin = async (req, res, next) => {
       newRegistration,
     });
   }
-  catch (err) { 
+  catch (err) {
     console.log(err);
-   }
+  }
 };
 
 const checkout = async (req, res, next) => {
@@ -67,7 +68,7 @@ const checkout = async (req, res, next) => {
 };
 
 const cancelRegistration = async (req, res, next) => {
-  try { 
+  try {
     const { id } = req.params;
     const registration = await Registration.findOne({ where: { id } });
 
@@ -79,7 +80,7 @@ const cancelRegistration = async (req, res, next) => {
     }
     res.status(200).json({ registration });
 
-    await registration.update({status: 'cancelled' });
+    await registration.update({ status: 'cancelled' });
 
     res.status(204).json({ status: 'success' });
   }
