@@ -13,6 +13,7 @@ const getAllRegistrations = async (req, res, next) => {
   }
 };
 
+
 const getRegistrationsById = async (req, res, next) => {
   try {
     const { id } = req.params;
